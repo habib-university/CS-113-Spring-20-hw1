@@ -1,10 +1,15 @@
 \documentclass[addpoints]{exam}
 
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{venndiagram}
+
 % Header and footer.
 \pagestyle{headandfoot}
 \runningheadrule
 \runningfootrule
-\runningheader{CS 113 Discrete Mathematics}{HW I: Sets}{Spring 2020}
+\runningheader{CS 113 Discrete Mathematics}{Solution to HW I: Sets}{Spring 2020}
 \runningfooter{}{Page \thepage\ of \numpages}{}
 \firstpageheader{}{}{}
 
@@ -12,7 +17,13 @@
 \boxedpoints
 \printanswers
 
-\title{Homework I: Sets\\ CS 113 Discrete Mathematics\\ Habib University -- Spring 2020}
+\newcommand\union\cup
+\newcommand\inter\cap
+\newcommand\ul\underline
+\newcommand\ol\overline
+
+
+\title{Solution to Homework I: Sets\\ CS 113 Discrete Mathematics\\ Habib University -- Spring 2020}
 \author{Don't Grade Me}  % replace with your ID, e.g. oy02945
 \date{}
 
@@ -26,7 +37,16 @@
   Write down $\mathcal{P}(X)$ if 
   $ X = \{ \emptyset, \{\alpha, \beta, \gamma \}, \gamma, \{\{ \alpha, \beta \} \} \}$.
   \begin{solution}
-    % Write your solution here
+    \begin{align*}
+        \mathcal{P}(X) = &\{\emptyset, \\
+      & \{ \emptyset \},  \{ \{ \alpha, \beta, \gamma \} \},  \{ \gamma \},   \{ \{ \{ \alpha, \beta \}\}\}, \\
+      &\{\emptyset, \{\alpha,\beta,\gamma\}\}, \{\emptyset,\gamma\}, \{\emptyset, \{\{\alpha, \beta\}\}\},
+  \{\{\alpha,\beta,\gamma\},\gamma\}, \{\{\alpha,\beta,\gamma\},\{\{\alpha, \beta\}\}\}, \{\gamma,\{\{\alpha,\beta\}\}\}, \\
+      &\{\emptyset,\{\alpha,\beta,\gamma\},\gamma\}, \{\emptyset,\{\alpha,\beta,\gamma\},\{\{\alpha,\beta\}\}\},
+      \{\emptyset, \gamma, \{\{\alpha,\beta\}\}\},\{ \{\alpha, \beta, \gamma \}, \gamma, \{\{ \alpha, \beta \} \} \} \},\\
+      &\{\emptyset,\{\alpha,\beta,\gamma\},\gamma,\{\{\alpha,\beta\}\}\}
+    \end{align*}
+    There should be a total of $2^4 = 16$ elements.
   \end{solution}
 
   \question
@@ -34,12 +54,14 @@
     \part[5] 
     Assume that RO has asked for your help to generate a set that contains all the possible pairs of DSSE faculty and DSSE courses at Habib University. Describe the sets and set operations that you can use to provide RO the desired set.
     \begin{solution}
-      % Write your solution here
-    \end{solution}
+      Let us define the following sets.\\
+      $A$ : the set of all DSSE courses\\
+      $B$ : the set of all DSSE faculty members.\\
+      Then, the Cartesian product, $ B \times A$, will contain all possible pairings of DSSE faculty with DSSE courses.    \end{solution}
 
     \part[5] Imagine that the the operation above is extended to include an additional set that contains all the time slots when a course can be scheduled. Explain the outcome of the obtained set.
     \begin{solution}
-      % Write your solution here
+      Let $C$ denote the additional set, i.e. the set that contains all the time slots for each course. This set can be used to figure out a scheduling system for the courses offered at Habib University and which faculty member(s) can teach a course. It will give all possible triples of faculty member, course and timing that the course can be offered. One can use it to help avoid clashes and determine which courses can be offered in a given semester.
     \end{solution}
   \end{parts}
   
@@ -47,13 +69,51 @@
   The \textit{symmetric difference} of two sets $A$ and $B$ is defined as $A\oplus B = (A-B) \cup (B-A)$. It is also known as the \textit{disjunctive union} as it contains all those elements which are in either of those sets, but not in their intersection. 
   \begin{parts}
     \part[5] Prove that $A\oplus B = (A \cup B)-(A \cap B).$
-    \begin{solution}
-      % Write your solution here
+      \begin{solution}
+      	
+      	There are multiple ways to prove it. For example: \\
+        The Venn diagrams for $(A-B)$ and $(B-A)$ are as follows.\\        
+        \begin{venndiagram2sets}
+          \fillOnlyA;
+        \end{venndiagram2sets}        
+        \begin{venndiagram2sets}
+          \fillOnlyB;
+        \end{venndiagram2sets}
+        
+        Then the diagram for $(A-B) \union (B-A)$ is:
+        \begin{venndiagram2sets}
+          \fillOnlyA; \fillOnlyB;
+        \end{venndiagram2sets}
+
+        The Venn diagrams for $(A\union B)$ and $(A\inter B)$ are as follows.\\
+        \begin{venndiagram2sets}
+          \fillA; \fillB;
+        \end{venndiagram2sets}        
+        \begin{venndiagram2sets}
+          \fillACapB;
+        \end{venndiagram2sets}
+
+        Then the diagram for $(A\union B) - (A\inter B)$ is: 
+        \begin{venndiagram2sets}
+          \fillOnlyA; \fillOnlyB;
+        \end{venndiagram2sets} 
+      \end{solution}
+      \begin{solution}
+        The most direct way (not always the simplest) to prove that $A=B$ for sets, is to prove both $A \subseteq B$ and $B \subseteq A$. 
+        
+        If $x \in (A \cup B) - (A \cap B)$, then $x \in (A \cup B)$ and $x \notin (A \cap B)$. That means $x$ is in either $A$ or $B$ but not both. \\
+        Case 1: Suppose $x$ is in $A$ but not in $B$. Then $x$ is in $A-B$ so in $(A-B)\cup(B-A)$. \\ Case 2: Suppose $x$ is in $B$ but not in $A$. Then $x$ is in $B-A$ so in $(A-B)\cup(B-A)$. In either case, $(A \cup B)-(A \cap B)\subseteq(A-B)\cup(B-A).$
+        
+        Now the other way- Suppose $x \in (A-B)\cup(B-A)$. \\ Then either Case 1: $x \in A-B$. Then $x \in (A \cup B)$ but not in $(A \cap B)$ so $x \in (A \cup B) - (A \cap B)$. \\Or Case 2: $x \in B-A.$ Then, again, $x \in (A \cup B)$ but not in $(A \cap B)$ so $x \in (A \cup B) - (A \cap B)$. \\In either case, $(A-B)\cup(B-A) \subseteq (A \cup B)-  (A \cap B) .$\\
+        
+        Therefore, $(A \cup B)-(A \cap B)\subseteq(A-B)\cup(B-A)$.
     \end{solution}
 
     \part[10] For three sets $A, B,$ and $C$ we definine the symmetric difference as $A\oplus B\oplus C = (A\oplus B)\oplus C $, meaning using the definition twice. Draw the Venn diagram of this set and express it as in part (a).
-    \begin{solution}
-      % Write your solution here
+    \begin{solution} The expression would be $A\oplus B\oplus C = (A\union B\union C) - (A\inter B) - (A\inter C) - (B\inter C) \union (A \inter B \inter C)$. The diagram is:
+        \begin{venndiagram3sets}
+          \fillOnlyA; \fillOnlyB; \fillOnlyC;\fillACapBCapC;
+        \end{venndiagram3sets}
     \end{solution}
   \end{parts}
 
@@ -64,17 +124,39 @@
     \part[5] Write the sets $A$ and $B$ in proper set notation and describe $A \cap B$ as simply as possible.
     
     \begin{solution}
-      % Write your solution here
+    	Again, there are multiple ways to write it down. One example: 
+    	\begin{align*}
+    		A =& \{ x \in \mathbb{N} | \text{  there is an } a \in \mathbb{N}, \text{ such that } a \cdot 6 = x \}\\
+    		B = &\{ x \in \mathbb{N} | \text{  there is a } b \in \mathbb{N}, \text{ such that } b \cdot 10 = x \}\\
+    		A \cap B =& \{ x \in \mathbb{N} | \text{ there is an }  a \in \mathbb{N}, \text{ such that } a \cdot 6 = x \text{ or there is a } b \in \mathbb{N} \text{ such that } b \cdot 10 = x \}\\
+    		\; = &  \{ x \in \mathbb{N} | \text{ there is an }a \in \mathbb{N}, \text{ such that } a \cdot 30 = x \}.
+    	\end{align*}
+      As all numbers that are divisible by 6 and by 10 are also divisible by 30.
     \end{solution}
     
     \part[5] What is $A \oplus B$? Describe it using set notation and prove that it is indeed the symmetric difference of $A$ and $B$.
     \begin{solution}
-      % Write your solution here
+    	\begin{align*}
+    	A \oplus B =& (A-B)\cup(B-A) \\
+     	=& \{ x \in \mathbb{N} | \text{ there is an }  a \in \mathbb{N}, \text{ such that } a \cdot 6 = x \text{ and there is no } b \in \mathbb{N} \text{ such that } b \cdot 10 = x \}\\
+    	\;& \cup \{ x \in \mathbb{N} | \text{ there is an }  a \in \mathbb{N}, \text{ such that } a \cdot 10 = x \text{ and there is no } b \in \mathbb{N} \text{ such that } b \cdot 6 = x \}\\
+    	=& \{ x \in \mathbb{N} | \text{ there is an }  a \in \mathbb{N}, \text{ such that } a \cdot 6 = x \text{ or there is a } b \in \mathbb{N} \text{ such that } b \cdot 10 = x \\
+    	\; & \; \text{ BUT there is no } c \in \mathbb{N}, \text{ such that } c \cdot 30 = x \},
+    	\end{align*}
+      because the numbers that are divisible by 6 and not by 10 are the numbers that are divisible by 6, but not by 30 (as for example 10 and 20 are not relevant as they are not divisible by 6) and because the numbers that are divisible by 10 and not by 6 are the numbers that are divisible by 10, but not by 30 (as for example 6, 12 and 18 are not relevant as they are not divisible by 10). 
     \end{solution}
 
-    \part[5] List down the elements of $A$, $B$, and $A \oplus B$ if $U = \{x\in \mathcal{N} \mid x \leq 60 \}$.
+    \part[5] List down the elements of $A$, $B$, and $A \oplus B$ if $U = \{x\in \mathbb{N} \mid x \leq 60 \}$.
     \begin{solution}
-      % Write your solution here
+    	\begin{align*}
+    	A = &\{ 6,12,18,24,30,36,42,48,54,60\}\\
+    	B = & \{ 10, 20, 30, 40, 50, 60 \}\\
+    	 A \oplus B =& \{ 6,10,12,18,20,24,30,36,40,42,48,50,54,60\}-\{30,60\} \\
+    	 =  &\{ 6,10,12,18,20,24,36,40,42,48,50,54\}
+    	\end{align*}
+      
+      
+     
     \end{solution}
   \end{parts}
 
@@ -84,14 +166,58 @@
     
     \part[5] by using set identities.
     \begin{solution}
-      % Write your solution here
+      Applying De Morgan's law to the left hand side:
+      \begin{align*}
+        \ol{ A \cup \ol{B}} & = \ol{A} \cap \ol{\ol{B}}\\
+                            & = \ol{A} \cap B
+      \end{align*}
+      Hence proved.
     \end{solution}
     
     \part[5] by proving that each set is a subset of the other.
-    \begin{solution}
-      % Write your solution here
+      \begin{solution}
+
+      \ul{Case I}: To prove: $\overline{ A \cup \overline{B}} \subseteq \overline{A} \cap B$\\
+      Let $x \in \overline{ A \cup \overline{B}}$\\
+      $\implies x \not\in (A \cup \overline{B})$\\
+      $\implies (x \not\in A) \land (x \not\in \ol{B})$\\
+      $\implies (x \in \ol{A}) \land (x \in B)$\\
+      $\implies x \in \ol{A} \inter B$\\
+      \ul{Case II}: To prove: $ \overline{A} \cap B \subseteq \overline{ A \cup \overline{B}}$\\
+      Let $x \in \ol{A} \inter B$\\
+      $\implies (x \in \ol{A}) \land (x \in B)$\\
+      $\implies (x \not\in A) \land (x \not\in \ol{B})$\\
+      $\implies x \not\in (A \cup \overline{B})$\\
+      $\implies x \in \ol{A \cup \overline{B}}$\\[5pt]
+      Hence Proved.
+    \end{solution}
+    \begin{solution} Here is another solution that uses logic.
+      \ul{Case I}: To prove: $\overline{ A \cup \overline{B}} \subseteq \overline{A} \cap B$\\
+      Let $x \in \overline{ A \cup \overline{B}}$\\
+      $\implies x \not\in (A \cup \overline{B})$\\
+       $\implies \neg (x \in (A \cup \overline{B}))$\\
+       $\implies \neg (x \in A) \land  \neg (x \in \overline{B})$\\
+      $\implies (x \not\in A) \land (x \not\in \ol{B})$\\
+      $\implies (x \in \ol{A}) \land (x \in \ol{\ol{B}})$\\
+      $\implies (x \in \ol{A}) \land (x \in B)$\\
+      $\implies x \in \ol{A} \inter B$\\
+      \ul{Case II}: To prove: $ \overline{A} \cap B \subseteq \overline{ A \cup \overline{B}}$\\
+      Let $x \in \ol{A} \inter B$\\
+      $\implies (x \in \ol{A}) \land (x \in B)$\\
+        $\implies (x \in \ol{A}) \land (x \in \ol{\ol{B}})$\\
+       $\implies (x \not\in A) \land (x \not\in \ol{B})$\\
+       $\implies \neg (x \in A) \land  \neg (x \in \overline{B})$\\
+        $\implies \neg (x \in (A \cup \overline{B}))$\\
+      $\implies x \not\in (A \cup \overline{B})$\\
+      $\implies x \in \ol{A \cup \overline{B}}$\\[5pt]
+      Hence Proved.
     \end{solution}
   \end{parts}
 \end{questions}
 
 \end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
